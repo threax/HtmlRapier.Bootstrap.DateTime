@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "paths": {
-      "hr.bootstrap.datepicker.*": [
+      "hr.bootstrap.datetime.*": [
         "src/*"
       ]
     }

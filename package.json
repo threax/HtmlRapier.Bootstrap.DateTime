@@ -1,5 +1,5 @@
 {
-  "name": "htmlrapier.bootstrap.datetimepicker",
+  "name": "htmlrapier.bootstrap.datetime",
   "version": "1.0.0",
   "description": "A wrapper around http://eonasdan.github.io/bootstrap-datetimepicker/ to make it work with htmlrapier.",
   "repository": {

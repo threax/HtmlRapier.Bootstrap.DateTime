@@ -3,22 +3,9 @@
     "pathBase": "..",
     "outDir": "lib",
     "copy": [
-      "../jquery/dist/jquery.min.js"
-    ]
-  },
-  {
-    "pathBase": "..",
-    "outDir": "lib",
-    "copy": [
-      "../bootstrap/dist/fonts/*",
-      "../bootstrap/dist/js/bootstrap.min.js"
-    ]
-  },
-  {
-    "pathBase": "..",
-    "outDir": "lib",
-    "copy": [
-      "../bootstrap-datetimepicker/src/**/*"
+      "../eonasdan-bootstrap-datetimepicker/build/**/*",
+      "../moment/min/**/*",
+      "../moment/locale/**/*"
     ]
   }
 ]
