@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "paths": {
+      "hr.bootstrap.datepicker.*": [
+        "src/*"
+      ]
+    }
+  },
+  "include": [
+    "src\\**\\*.ts"
+  ]
+}
