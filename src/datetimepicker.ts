@@ -7,9 +7,11 @@ declare var $;
 class DateTimeItemEditor extends formbuilder.BasicItemEditor{
     private dateName: string;
 
-    constructor(name: string, buildName: string, bindings: controller.BindingCollection, generated: boolean, private element: HTMLElement){
+    constructor(name: string, buildName: string, bindings: controller.BindingCollection, generated: boolean, private element: HTMLElement, format?: string){
         super(name, buildName, bindings, generated);
-        $(element).datetimepicker();
+        $(element).datetimepicker({
+            format: format
+        });
         this.dateName = name;
     }
 
@@ -25,8 +27,9 @@ class Builder implements formbuilder.IFormValueBuilder {
     public create(args: formbuilder.IFormValueBuilderArgs) : formbuilder.IFormValue | null{
         switch(args.item.buildType){
             case 'date-time':
-            case 'date':
                 return new DateTimeItemEditor(args.item.name, args.item.buildName, args.bindings, args.generated, args.inputElement);
+            case 'date':
+                return new DateTimeItemEditor(args.item.name, args.item.buildName, args.bindings, args.generated, args.inputElement, "MM/DD/YYYY");
         }
 
         return null;
