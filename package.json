@@ -1,6 +1,6 @@
 {
   "name": "htmlrapier.bootstrap.datetime",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A wrapper around http://eonasdan.github.io/bootstrap-datetimepicker/ to make it work with htmlrapier.",
   "repository": {
     "type": "git",
@@ -14,7 +14,7 @@
   "dependencies": {
     "htmlrapier": ">=8.1.0",
     "bootstrap": ">=3.3.7",
-    "jquery": "^>=3.2.1",
+    "jquery": ">=3.2.1",
     "eonasdan-bootstrap-datetimepicker": ">=4.17.47",
     "htmlrapier.bootstrap": ">=6.0.2"
   },
