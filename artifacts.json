@@ -3,9 +3,9 @@
     "pathBase": "..",
     "outDir": "lib",
     "copy": [
-      "../eonasdan-bootstrap-datetimepicker/build/**/*",
-      "../moment/min/**/*",
-      "../moment/locale/**/*"
+      "../eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css",
+      "../eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js",
+      "../moment/min/moment.min.js"
     ]
   }
 ]
