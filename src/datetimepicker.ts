@@ -12,7 +12,7 @@ class DateTimeItemEditor extends formbuilder.BasicItemEditor{
         $(this.element).datetimepicker({
             format: format
         });
-        this.dateName = name;
+        this.dateName = args.item.name;
     }
 
     public setData(data: any, serializer: formHelper.IFormSerializer) {
