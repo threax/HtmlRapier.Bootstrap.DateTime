@@ -17,8 +17,12 @@ class DateTimeItemEditor extends formbuilder.BasicItemEditor{
 
     public setData(data: any, serializer: formHelper.IFormSerializer) {
         super.setData(data, serializer);
-        if (data[this.dateName] !== undefined) {
+        var dateData = data[this.dateName];
+        if (dateData !== undefined && dateData !== null) {
             $(this.element).data("DateTimePicker").date(new Date(data[this.dateName]));
+        }
+        else {
+            (<HTMLFormElement>this.element).value = "";
         }
     }
 }
