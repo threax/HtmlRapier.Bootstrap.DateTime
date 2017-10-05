@@ -5,21 +5,16 @@ import * as controller from 'hr.controller';
 declare var $;
 
 class DateTimeItemEditor extends formbuilder.BasicItemEditor{
-    private dateName: string;
-
     constructor(args: formbuilder.IFormValueBuilderArgs, format?: string){
         super(args);
         $(this.element).datetimepicker({
             format: format
         });
-        this.dateName = args.item.name;
     }
 
-    public setData(data: any, serializer: formHelper.IFormSerializer) {
-        super.setData(data, serializer);
-        var dateData = data[this.dateName];
-        if (dateData !== undefined && dateData !== null) {
-            $(this.element).data("DateTimePicker").date(new Date(data[this.dateName]));
+    public doSetValue(itemData: any) {
+        if (itemData !== undefined && itemData !== null) {
+            $(this.element).data("DateTimePicker").date(new Date(itemData));
         }
         else {
             (<HTMLFormElement>this.element).value = "";
