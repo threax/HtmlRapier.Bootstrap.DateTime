@@ -40,6 +40,21 @@ if (!moment) {
 
 interface IBootstrapOptions {
     collapseOpenClass: string;
+    icons: IBootstrapIcons;
+    createIcon(icon: string): string;
+    swapIcon(span: any, time: string, date: string): void;
+}
+
+interface IBootstrapIcons {
+    time: string;
+    date: string;
+    up: string;
+    down: string;
+    previous: string;
+    next: string;
+    today: string;
+    clear: string;
+    close: string;
 }
 
 var bootstrapVersion = $.fn.collapse.Constructor.VERSION;
@@ -52,12 +67,54 @@ var version = split[0];
 switch (version) {
     case '3':
         bootstrapOptions = {
-            collapseOpenClass: 'in'
+            collapseOpenClass: 'in',
+            icons: {
+                time: 'glyphicon glyphicon-time',
+                date: 'glyphicon glyphicon-calendar',
+                up: 'glyphicon glyphicon-chevron-up',
+                down: 'glyphicon glyphicon-chevron-down',
+                previous: 'glyphicon glyphicon-chevron-left',
+                next: 'glyphicon glyphicon-chevron-right',
+                today: 'glyphicon glyphicon-screenshot',
+                clear: 'glyphicon glyphicon-trash',
+                close: 'glyphicon glyphicon-remove'
+            },
+            createIcon: function (icon: string): string {
+                return $('<span>').addClass(icon);
+            },
+            swapIcon: function (span: any, time: string, date: string) {
+                span.toggleClass(time + ' ' + date);
+            }
         };
         break;
     case '4':
         bootstrapOptions = {
-            collapseOpenClass: 'show'
+            collapseOpenClass: 'show',
+            icons: {
+                time: 'Time',
+                date: 'Date',
+                up: '+',
+                down: '-',
+                previous: '&lsaquo;',
+                next: '&rsaquo;',
+                today: 'Today',
+                clear: 'Clear',
+                close: 'Close'
+            },
+            createIcon: function (icon: string): string {
+                return $('<span>').html(icon);
+            },
+            swapIcon: function (span: any, time: string, date: string) {
+                var current = span.text();
+                switch (current) {
+                    case time:
+                        span.text(date);
+                        break;
+                    case date:
+                        span.text(time);
+                        break;
+                }
+            }
         };
         break;
     default:
@@ -204,11 +261,11 @@ var dateTimePicker = function (element, options) {
             var headTemplate = $('<thead>')
                     .append($('<tr>')
                         .append($('<th>').addClass('prev').attr('data-action', 'previous')
-                            .append($('<span>').addClass(options.icons.previous))
+                            .append(bootstrapOptions.createIcon(options.icons.previous))
                             )
                         .append($('<th>').addClass('picker-switch').attr('data-action', 'pickerSwitch').attr('colspan', (options.calendarWeeks ? '6' : '5')))
                         .append($('<th>').addClass('next').attr('data-action', 'next')
-                            .append($('<span>').addClass(options.icons.next))
+                            .append(bootstrapOptions.createIcon(options.icons.next))
                             )
                         ),
                 contTemplate = $('<tbody>')
@@ -247,11 +304,11 @@ var dateTimePicker = function (element, options) {
 
             if (isEnabled('h')) {
                 topRow.append($('<td>')
-                    .append($('<a>').attr({ href: '#', tabindex: '-1', 'title': options.tooltips.incrementHour }).addClass('btn').attr('data-action', 'incrementHours').append($('<span>').addClass(options.icons.up))));
+                    .append($('<a>').attr({ href: '#', tabindex: '-1', 'title': options.tooltips.incrementHour }).addClass('btn').attr('data-action', 'incrementHours').append(bootstrapOptions.createIcon(options.icons.up))));
                 middleRow.append($('<td>')
                     .append($('<span>').addClass('timepicker-hour').attr({ 'data-time-component': 'hours', 'title': options.tooltips.pickHour }).attr('data-action', 'showHours')));
                 bottomRow.append($('<td>')
-                    .append($('<a>').attr({ href: '#', tabindex: '-1', 'title': options.tooltips.decrementHour }).addClass('btn').attr('data-action', 'decrementHours').append($('<span>').addClass(options.icons.down))));
+                    .append($('<a>').attr({ href: '#', tabindex: '-1', 'title': options.tooltips.decrementHour }).addClass('btn').attr('data-action', 'decrementHours').append(bootstrapOptions.createIcon(options.icons.down))));
             }
             if (isEnabled('m')) {
                 if (isEnabled('h')) {
@@ -261,12 +318,12 @@ var dateTimePicker = function (element, options) {
                 }
                 topRow.append($('<td>')
                     .append($('<a>').attr({ href: '#', tabindex: '-1', 'title': options.tooltips.incrementMinute }).addClass('btn').attr('data-action', 'incrementMinutes')
-                        .append($('<span>').addClass(options.icons.up))));
+                        .append(bootstrapOptions.createIcon(options.icons.up))));
                 middleRow.append($('<td>')
                     .append($('<span>').addClass('timepicker-minute').attr({ 'data-time-component': 'minutes', 'title': options.tooltips.pickMinute }).attr('data-action', 'showMinutes')));
                 bottomRow.append($('<td>')
                     .append($('<a>').attr({ href: '#', tabindex: '-1', 'title': options.tooltips.decrementMinute }).addClass('btn').attr('data-action', 'decrementMinutes')
-                        .append($('<span>').addClass(options.icons.down))));
+                        .append(bootstrapOptions.createIcon(options.icons.down))));
             }
             if (isEnabled('s')) {
                 if (isEnabled('m')) {
@@ -276,12 +333,12 @@ var dateTimePicker = function (element, options) {
                 }
                 topRow.append($('<td>')
                     .append($('<a>').attr({ href: '#', tabindex: '-1', 'title': options.tooltips.incrementSecond }).addClass('btn').attr('data-action', 'incrementSeconds')
-                        .append($('<span>').addClass(options.icons.up))));
+                        .append(bootstrapOptions.createIcon(options.icons.up))));
                 middleRow.append($('<td>')
                     .append($('<span>').addClass('timepicker-second').attr({ 'data-time-component': 'seconds', 'title': options.tooltips.pickSecond }).attr('data-action', 'showSeconds')));
                 bottomRow.append($('<td>')
                     .append($('<a>').attr({ href: '#', tabindex: '-1', 'title': options.tooltips.decrementSecond }).addClass('btn').attr('data-action', 'decrementSeconds')
-                        .append($('<span>').addClass(options.icons.down))));
+                        .append(bootstrapOptions.createIcon(options.icons.down))));
             }
 
             if (!use24Hours) {
@@ -321,16 +378,16 @@ var dateTimePicker = function (element, options) {
         getToolbar = function () {
             var row = [];
             if (options.showTodayButton) {
-                row.push($('<td>').append($('<a>').attr({ 'data-action': 'today', 'title': options.tooltips.today }).append($('<span>').addClass(options.icons.today))));
+                row.push($('<td>').append($('<a>').attr({ 'data-action': 'today', 'title': options.tooltips.today }).append(bootstrapOptions.createIcon(options.icons.today))));
             }
             if (!options.sideBySide && hasDate() && hasTime()) {
-                row.push($('<td>').append($('<a>').attr({ 'data-action': 'togglePicker', 'title': options.tooltips.selectTime }).append($('<span>').addClass(options.icons.time))));
+                row.push($('<td>').append($('<a>').attr({ 'data-action': 'togglePicker', 'title': options.tooltips.selectTime }).append(bootstrapOptions.createIcon(options.icons.time))));
             }
             if (options.showClear) {
-                row.push($('<td>').append($('<a>').attr({ 'data-action': 'clear', 'title': options.tooltips.clear }).append($('<span>').addClass(options.icons.clear))));
+                row.push($('<td>').append($('<a>').attr({ 'data-action': 'clear', 'title': options.tooltips.clear }).append(bootstrapOptions.createIcon(options.icons.clear))));
             }
             if (options.showClose) {
-                row.push($('<td>').append($('<a>').attr({ 'data-action': 'close', 'title': options.tooltips.close }).append($('<span>').addClass(options.icons.close))));
+                row.push($('<td>').append($('<a>').attr({ 'data-action': 'close', 'title': options.tooltips.close }).append(bootstrapOptions.createIcon(options.icons.close))));
             }
             return $('<table>').addClass('table-condensed').append($('<tbody>').append($('<tr>').append(row)));
         },
@@ -1126,15 +1183,10 @@ var dateTimePicker = function (element, options) {
                         closed.addClass(bootstrapOptions.collapseOpenClass);
                     }
                     if ($this.is('span')) {
-                        $this.toggleClass(options.icons.time + ' ' + options.icons.date);
+                        bootstrapOptions.swapIcon($this, options.icons.time, options.icons.date);
                     } else {
-                        $this.find('span').toggleClass(options.icons.time + ' ' + options.icons.date);
+                        bootstrapOptions.swapIcon($this.find('span'), options.icons.time, options.icons.date);
                     }
-
-                    // NOTE: uncomment if toggled state will be restored in show()
-                    //if (component) {
-                    //    component.find('span').toggleClass(options.icons.time + ' ' + options.icons.date);
-                    //}
                 }
             },
 
@@ -2469,15 +2521,15 @@ $.fn.datetimepicker.defaults = {
     disabledDates: false,
     enabledDates: false,
     icons: {
-        time: 'glyphicon glyphicon-time',
-        date: 'glyphicon glyphicon-calendar',
-        up: 'glyphicon glyphicon-chevron-up',
-        down: 'glyphicon glyphicon-chevron-down',
-        previous: 'glyphicon glyphicon-chevron-left',
-        next: 'glyphicon glyphicon-chevron-right',
-        today: 'glyphicon glyphicon-screenshot',
-        clear: 'glyphicon glyphicon-trash',
-        close: 'glyphicon glyphicon-remove'
+        time: bootstrapOptions.icons.time,
+        date: bootstrapOptions.icons.date,
+        up: bootstrapOptions.icons.up,
+        down: bootstrapOptions.icons.down,
+        previous: bootstrapOptions.icons.previous,
+        next: bootstrapOptions.icons.next,
+        today: bootstrapOptions.icons.today,
+        clear: bootstrapOptions.icons.clear,
+        close: bootstrapOptions.icons.close
     },
     tooltips: {
         today: 'Go to today',
