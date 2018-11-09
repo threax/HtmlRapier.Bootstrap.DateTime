@@ -3,7 +3,7 @@
     "pathBase": "..",
     "outDir": "lib",
     "copy": [
-      "../eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css",
+      "../htmlrapier.bootstrap.datetime/css/bootstrap-datetimepicker.css",
       "../moment/min/moment.min.js"
     ]
   }
