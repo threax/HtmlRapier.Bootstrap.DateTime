@@ -38,6 +38,33 @@ if (!moment) {
     throw new Error('bootstrap-datetimepicker requires Moment.js to be loaded first');
 }
 
+interface IBootstrapOptions {
+    collapseOpenClass: string;
+}
+
+var bootstrapVersion = $.fn.collapse.Constructor.VERSION;
+if (bootstrapVersion === undefined) {
+    throw new Error("Cannot detect bootstrap version. DateTimePicker will not be available.");
+}
+var bootstrapOptions: IBootstrapOptions;
+var split = bootstrapVersion.split(".");
+var version = split[0];
+switch (version) {
+    case '3':
+        bootstrapOptions = {
+            collapseOpenClass: 'in'
+        };
+        break;
+    case '4':
+        bootstrapOptions = {
+            collapseOpenClass: 'show'
+        };
+        break;
+    default:
+        throw new Error("Bootstrap version " + bootstrapVersion + " is not supported by the DateTimePicker.");
+}
+
+
 var dateTimePicker = function (element, options) {
     var picker: any = {},
         date,
@@ -347,7 +374,7 @@ var dateTimePicker = function (element, options) {
                 content.append(toolbar);
             }
             if (hasDate()) {
-                content.append($('<li>').addClass((options.collapse && hasTime() ? 'collapse in' : '')).append(dateView));
+                content.append($('<li>').addClass((options.collapse && hasTime() ? 'collapse ' + bootstrapOptions.collapseOpenClass : '')).append(dateView));
             }
             if (options.toolbarPlacement === 'default') {
                 content.append(toolbar);
@@ -1082,8 +1109,8 @@ var dateTimePicker = function (element, options) {
             togglePicker: function (e) {
                 var $this = $(e.target),
                     $parent = $this.closest('ul'),
-                    expanded = $parent.find('.in'),
-                    closed = $parent.find('.collapse:not(.in)'),
+                    expanded = $parent.find('.' + bootstrapOptions.collapseOpenClass),
+                    closed = $parent.find('.collapse:not(.' + bootstrapOptions.collapseOpenClass + ')'),
                     collapseData;
 
                 if (expanded && expanded.length) {
@@ -1095,8 +1122,8 @@ var dateTimePicker = function (element, options) {
                         expanded.collapse('hide');
                         closed.collapse('show');
                     } else { // otherwise just toggle in class on the two views
-                        expanded.removeClass('in');
-                        closed.addClass('in');
+                        expanded.removeClass(bootstrapOptions.collapseOpenClass);
+                        closed.addClass(bootstrapOptions.collapseOpenClass);
                     }
                     if ($this.is('span')) {
                         $this.toggleClass(options.icons.time + ' ' + options.icons.date);
