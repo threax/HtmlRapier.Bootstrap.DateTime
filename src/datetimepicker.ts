@@ -42,10 +42,11 @@ class DateTimeItemEditor extends formbuilder.BasicItemEditor{
     }
 
     public getData(): any {
-        moment.tz.setDefault(this.displayTimezone);
         var value = this.dateTimePicker.date();
-        moment.tz.setDefault();
         if (this.dataTimezone) {
+            moment.tz.setDefault(this.displayTimezone);
+            value = moment(value.format('YYYY-MM-DD[T]HH:mm:ss')); //Reset any timezones, we want the displayTimezone to be the one set to whatever time we have.
+            moment.tz.setDefault();
             //If the data came in with a timezone it has one going out
             value = value.tz(this.dataTimezone);
         }
@@ -66,7 +67,7 @@ class DateTimeItemEditor extends formbuilder.BasicItemEditor{
             this.dateTimePicker.date(itemData);
         }
         else {
-            (<HTMLFormElement>this.element).value = "";
+            this.dateTimePicker.date(null);
         }
     }
 }
