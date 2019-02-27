@@ -7,12 +7,14 @@ declare var $;
 class DateTimeItemEditor extends formbuilder.BasicItemEditor{
     private displayTimezone: string;
     private dataTimezone: string;
+    private dateTimePicker;
 
     constructor(args: formbuilder.IFormValueBuilderArgs, format?: string){
         super(args);
         $(this.element).datetimepicker({
             format: format
         });
+        this.dateTimePicker = $(this.element).data("DateTimePicker");
 
         var xUi = <any>args.item.xUi;
         if (xUi && xUi.dataTimezone) {
@@ -40,24 +42,28 @@ class DateTimeItemEditor extends formbuilder.BasicItemEditor{
     }
 
     public getData(): any {
-        var value = super.getData();
+        moment.tz.setDefault(this.displayTimezone);
+        var value = this.dateTimePicker.date();
+        moment.tz.setDefault();
         if (this.dataTimezone) {
-            moment.tz.setDefault(this.displayTimezone);
-            value = moment(value).tz(this.dataTimezone).format();
-            moment.tz.setDefault();
+            //If the data came in with a timezone it has one going out
+            value = value.tz(this.dataTimezone);
         }
-        return value;
+        return value.format('YYYY-MM-DD[T]HH:mm:ss');
     }
 
     public doSetValue(itemData: any) {
         if (itemData !== undefined && itemData !== null) {
             if (this.dataTimezone) {
                 moment.tz.setDefault(this.dataTimezone);
-                itemData = moment(itemData).tz(this.displayTimezone).format();
+                itemData = moment(itemData).tz(this.displayTimezone);
                 moment.tz.setDefault();
             }
+            else {
+                itemData = moment(itemData);
+            }
 
-            $(this.element).data("DateTimePicker").date(new Date(itemData));
+            this.dateTimePicker.date(itemData);
         }
         else {
             (<HTMLFormElement>this.element).value = "";
@@ -69,7 +75,7 @@ class Builder implements formbuilder.IFormValueBuilder {
     public create(args: formbuilder.IFormValueBuilderArgs) : formbuilder.IFormValue | null{
         switch(args.item.buildType){
             case 'date-time':
-                return new DateTimeItemEditor(args);
+                return new DateTimeItemEditor(args, "MM/DD/YYYY hh:mm:ss A");
             case 'date':
                 return new DateTimeItemEditor(args, "MM/DD/YYYY");
         }
