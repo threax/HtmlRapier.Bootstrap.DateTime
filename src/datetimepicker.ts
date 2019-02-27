@@ -42,6 +42,12 @@ class DateTimeItemEditor extends formbuilder.BasicItemEditor{
     }
 
     public getData(): any {
+        //Check the superclass to see if it detects data, if it does format and return it otherwise just return undefined. The underlying date-time control
+        //does not do a good job of detecting null.
+        if (!super.getData()) {
+            return undefined;
+        }
+
         var value = this.dateTimePicker.date();
         if (this.dataTimezone) {
             moment.tz.setDefault(this.displayTimezone);
