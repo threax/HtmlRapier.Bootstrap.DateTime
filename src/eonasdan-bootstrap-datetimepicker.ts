@@ -1,4 +1,3 @@
-///<amd-module name="hr.bootstrap.datetime.eonasdan-bootstrap-datetimepicker"/>
 /*! version : 4.17.47
  =========================================================
  bootstrap-datetimejs
@@ -2692,3 +2691,7 @@ $.fn.datetimepicker.defaults = {
     enabledHours: false,
     viewDate: false
 };
+
+export function setup() {
+    return true; //Doesn't do anything, but makes module work
+}

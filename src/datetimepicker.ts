@@ -1,8 +1,7 @@
-import * as formbuilder from 'hr.formbuilder';
-import * as formHelper from 'hr.formhelper';
-import * as controller from 'hr.controller';
+import * as formbuilder from 'htmlrapier/src/formbuilder';
 
 declare var $;
+declare var moment;
 
 class DateTimeItemEditor extends formbuilder.BasicItemEditor{
     private displayTimezone: string;
@@ -91,6 +90,8 @@ class Builder implements formbuilder.IFormValueBuilder {
     }
 }
 
-export function activate() {
-    formbuilder.registerFormValueBuilder(new Builder());
+formbuilder.registerFormValueBuilder(new Builder());
+
+export function setup() {
+    return true; //Doesn't do anything, but makes module work
 }
