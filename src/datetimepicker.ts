@@ -84,6 +84,8 @@ class Builder implements formbuilder.IFormValueBuilder {
                 return new DateTimeItemEditor(args, "MM/DD/YYYY hh:mm:ss A");
             case 'date':
                 return new DateTimeItemEditor(args, "MM/DD/YYYY");
+            case 'time':
+                return new DateTimeItemEditor(args, "hh:mm A");
         }
 
         return null;
