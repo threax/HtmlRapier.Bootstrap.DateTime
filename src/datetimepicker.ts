@@ -1,4 +1,4 @@
-import * as formbuilder from 'hr.formbuilder';
+import * as formbuilder from 'htmlrapier/src/formbuilder';
 
 declare var $;
 declare var moment;

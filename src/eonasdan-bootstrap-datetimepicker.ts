@@ -1,4 +1,3 @@
-///<amd-module name="hr.bootstrap.datetime.eonasdan-bootstrap-datetimepicker"/>
 /*! version : 4.17.47
  =========================================================
  bootstrap-datetimejs
