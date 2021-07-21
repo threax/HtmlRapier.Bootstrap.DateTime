@@ -1,11 +1,4 @@
 {
-  "compilerOptions": {
-    "paths": {
-      "hr.bootstrap.datetime.*": [
-        "src/*"
-      ]
-    }
-  },
   "include": [
     "src\\**\\*.ts"
   ]
