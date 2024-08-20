@@ -1,6 +1,6 @@
 {
   "name": "htmlrapier.bootstrap.datetime",
-  "version": "5.0.0",
+  "version": "5.1.0",
   "description": "A wrapper around http://eonasdan.github.io/bootstrap-datetimepicker/ to make it work with htmlrapier.",
   "repository": {
     "type": "git",
@@ -12,8 +12,8 @@
     "htmlrapier": ">=25.0.0",
     "bootstrap": ">=3.3.7",
     "htmlrapier.bootstrap": ">=9.0.0",
-    "moment": "^2.24.0",
-    "moment-timezone": "^0.5.23"
+    "moment": "^2.30.1",
+    "moment-timezone": "^0.5.45"
   },
   "files": [
     "src/**/*",
