@@ -28,6 +28,7 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  */
+/// <reference types="bootstrap" />
 'use strict';
 
 declare var $;
@@ -56,7 +57,7 @@ interface IBootstrapIcons {
     close: string;
 }
 
-var bootstrapVersion = $.fn.collapse.Constructor.VERSION;
+var bootstrapVersion = bootstrap.Collapse.VERSION;
 if (bootstrapVersion === undefined) {
     throw new Error("Cannot detect bootstrap version. DateTimePicker will not be available.");
 }
@@ -64,29 +65,7 @@ var bootstrapOptions: IBootstrapOptions;
 var split = bootstrapVersion.split(".");
 var version = split[0];
 switch (version) {
-    case '3':
-        bootstrapOptions = {
-            collapseOpenClass: 'in',
-            icons: {
-                time: 'glyphicon glyphicon-time',
-                date: 'glyphicon glyphicon-calendar',
-                up: 'glyphicon glyphicon-chevron-up',
-                down: 'glyphicon glyphicon-chevron-down',
-                previous: 'glyphicon glyphicon-chevron-left',
-                next: 'glyphicon glyphicon-chevron-right',
-                today: 'glyphicon glyphicon-screenshot',
-                clear: 'glyphicon glyphicon-trash',
-                close: 'glyphicon glyphicon-remove'
-            },
-            createIcon: function (icon: string): string {
-                return $('<span>').addClass(icon);
-            },
-            swapIcon: function (span: any, time: string, date: string) {
-                span.toggleClass(time + ' ' + date);
-            }
-        };
-        break;
-    case '4':
+    case '5':
         bootstrapOptions = {
             collapseOpenClass: 'show',
             icons: {
