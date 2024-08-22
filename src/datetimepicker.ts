@@ -1,19 +1,14 @@
 import * as formbuilder from 'htmlrapier/src/formbuilder';
 
-declare var $;
 declare var moment;
 
+type GetFullTimeStringCb = (d: string) => string;
 class DateTimeItemEditor extends formbuilder.BasicItemEditor{
     private displayTimezone: string;
     private dataTimezone: string;
-    private dateTimePicker;
 
-    constructor(args: formbuilder.IFormValueBuilderArgs, format?: string){
+    constructor(args: formbuilder.IFormValueBuilderArgs, private getFullTimeString: GetFullTimeStringCb){
         super(args);
-        $(this.element).datetimepicker({
-            format: format
-        });
-        this.dateTimePicker = $(this.element).data("DateTimePicker");
 
         var xUi = <any>args.item.xUi;
         if (xUi && xUi.dataTimezone) {
@@ -47,7 +42,8 @@ class DateTimeItemEditor extends formbuilder.BasicItemEditor{
             return undefined;
         }
 
-        var value = this.dateTimePicker.date();
+        var strValue = this.getFullTimeString((this.element as HTMLInputElement).value);
+        var value = moment(strValue);
         if (this.dataTimezone) {
             moment.tz.setDefault(this.displayTimezone);
             value = moment(value.format('YYYY-MM-DD[T]HH:mm:ss')); //Reset any timezones, we want the displayTimezone to be the one set to whatever time we have.
@@ -69,10 +65,10 @@ class DateTimeItemEditor extends formbuilder.BasicItemEditor{
                 itemData = moment(itemData);
             }
 
-            this.dateTimePicker.date(itemData);
+            (this.element as HTMLInputElement).value = itemData.format('YYYY-MM-DD[T]HH:mm:ss');
         }
         else {
-            this.dateTimePicker.date(null);
+            (this.element as HTMLInputElement).value = null;
         }
     }
 }
@@ -81,11 +77,11 @@ class Builder implements formbuilder.IFormValueBuilder {
     public create(args: formbuilder.IFormValueBuilderArgs) : formbuilder.IFormValue | null{
         switch(args.item.buildType){
             case 'date-time':
-                return new DateTimeItemEditor(args, "MM/DD/YYYY hh:mm:ss A");
+                return new DateTimeItemEditor(args, s => s);
             case 'date':
-                return new DateTimeItemEditor(args, "MM/DD/YYYY");
+                return new DateTimeItemEditor(args, s => s + "T00:00:00");
             case 'time':
-                return new DateTimeItemEditor(args, "hh:mm A");
+                return new DateTimeItemEditor(args, s => "0001-01-01T" + s);
         }
 
         return null;
