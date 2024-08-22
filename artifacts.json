@@ -3,7 +3,6 @@
     "pathBase": "..",
     "outDir": "lib",
     "copy": [
-      "../htmlrapier.bootstrap.datetime/css/bootstrap-datetimepicker.css",
       "../moment/min/moment.min.js",
       "../moment-timezone/builds/*.min.js"
     ]
